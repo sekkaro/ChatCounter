@@ -9,12 +9,15 @@ public class DataReader {
 		
 		DataReader myReader = new DataReader();
 		
-		myReader.getData(null);
-
+		ArrayList<String> messages = myReader.getData(args[0]);
+		
+		MessageFilter myFilter = new MessageFilter(messages);
+		
+		myFilter.convertToString();
 	}
 	
 	public ArrayList<String> getData(String strDir){
-		File myDir = getDirectory(null);
+		File myDir = getDirectory(strDir);
 		
 		File[] file = getListOfFilesFromDirectory(myDir);
 		
@@ -34,6 +37,22 @@ public class DataReader {
 	
 	private ArrayList<String> readFiles(File[] files){
 		ArrayList<String> message = new ArrayList<String>();
+		
+		DataReaderForCSV csvReader = new DataReaderForCSV();
+		DataReaderForTXT txtReader = new DataReaderForTXT();
+		
+		
+		for(File file : files) {
+			if(file.toString().contains("csv")) {
+				csvReader.readFiles(file);
+				message.add(csvReader.getMessages());
+			}
+			else if (file.toString().contains("txt")){
+				txtReader.readFiles(file);
+				message.add(txtReader.getMessages());
+			}
+		}
+		
 		return message;
 	}
 
