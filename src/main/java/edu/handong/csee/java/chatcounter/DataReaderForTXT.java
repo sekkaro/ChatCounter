@@ -16,9 +16,6 @@ public class DataReaderForTXT {
 						 String[] data = line.substring(1, line.length() - 1).split("]",-1);
 						 messages.add(data[0]);
 					 }
-					 if(line.contains("-")) {
-						 
-					 }
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
