@@ -45,11 +45,11 @@ public class DataReader {
 		for(File file : files) {
 			if(file.toString().contains("csv")) {
 				csvReader.readFiles(file);
-				message.add(csvReader.getMessages());
+				message.addAll(csvReader.getMessages());
 			}
 			else if (file.toString().contains("txt")){
 				txtReader.readFiles(file);
-				message.add(txtReader.getMessages());
+				message.addAll(txtReader.getMessages());
 			}
 		}
 		

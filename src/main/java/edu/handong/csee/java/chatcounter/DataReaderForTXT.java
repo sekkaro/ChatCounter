@@ -5,7 +5,8 @@ import java.util.*;
 
 public class DataReaderForTXT {
 	ArrayList<String> messages = new ArrayList<String>();
-	ArrayList<String> subMessages = new ArrayList<String>(); 
+	ArrayList<String> wholeMessages = new ArrayList<String>();
+	boolean readName = false;
 	public void readFiles(File file) {
 			messages.clear();
 			try {
@@ -13,16 +14,24 @@ public class DataReaderForTXT {
 				String line;
 				while((line=inputStream.readLine())!=null) {
 					 if(line.contains("[")) {
-						 String[] data = line.substring(1, line.length() - 1).split("]",-1);
-						 messages.add(data[0]);
-					 }
+						 if(!wholeMessages.contains(line)) {
+								wholeMessages.add(line);
+								readName = true;
+							}
+						 String[] data = line.split("]",-1);
+						 if(readName) {
+							 messages.add(data[0].replace("[","").replace("]",""));
+						 	}
+						 }
+					 readName=false;
 				}
+				inputStream.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 	}
 	
-	public String getMessages(){
-		return messages.toString().replace("[","").replace("]","");
+	public ArrayList<String> getMessages(){
+		return messages;
 	}
 }

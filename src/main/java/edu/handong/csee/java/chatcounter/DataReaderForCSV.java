@@ -5,25 +5,32 @@ import java.util.*;
 
 public class DataReaderForCSV {
 	ArrayList<String> messages = new ArrayList<String>();
-	
+	ArrayList<String> wholeMessages = new ArrayList<String>();
+	boolean readName = false;
 	public void readFiles(File file) {
 			messages.clear();
 			try {
 				BufferedReader inputStream = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF8"));
 				String line;
 				while((line=inputStream.readLine())!=null) {
-					if(line.contains("\"")) {
-						messages.add(line.split("\"",-1)[1]);
+					if(line.contains("2018")) {
+						if(!wholeMessages.contains(line)) {
+							wholeMessages.add(line);
+							readName = true;
+						}
+						if(readName) {
+							messages.add(line.split(",")[1].replace("\"", "").replace("[","").replace("]",""));
+						}
 					}
+					readName=false;
 				}
-				
+				inputStream.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			} 
 	}
 	
-	public String getMessages(){
-		return messages.toString().replace("[","").replace("]","");
+	public ArrayList<String> getMessages(){
+		return messages;
 	}
-	
 }
