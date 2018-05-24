@@ -49,6 +49,7 @@ public class DataReader {
 				message.addAll(csvReader.getNames());
 			}
 			else if (file.toString().contains("txt")){
+				txtReader.addTime(csvReader.getTime());
 				txtReader.addMessages(csvReader.getMessages());
 				txtReader.readFiles(file);
 				message.addAll(txtReader.getNames());

@@ -7,12 +7,12 @@ import java.util.regex.*;
 public class DataReaderForCSV {
 	ArrayList<String> names = new ArrayList<String>();
 	ArrayList<String> wholeMessages = new ArrayList<String>();
-	Pattern p = Pattern.compile("(\\d+)-(\\d+)-(\\d+)\\s(\\d+):(\\d+):\\d+,\"(.+)\",\"(.+)\"");  
+	ArrayList<String> time = new ArrayList<String>();
+	Pattern p = Pattern.compile("(\\d+)-(\\d+)-(\\d+)\\s(\\d+):(\\d+):(\\d+),\"(.+)\",\"(.+)\"");  
 	String msg,name;
-	int year,month,day,hour,min;
+	int year,month,day,hour,min,seconds;
 	boolean readName = false;
 	public void readFiles(File file) {
-		this.wholeMessages.addAll(wholeMessages);
 		names.clear();
 			try {
 				BufferedReader inputStream = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF8"));
@@ -25,12 +25,21 @@ public class DataReaderForCSV {
 						day = Integer.parseInt(m.group(3));
 						hour = Integer.parseInt(m.group(4));
 						min = Integer.parseInt(m.group(5));
-						name = m.group(6);
-						msg = m.group(7);
+						seconds = Integer.parseInt(m.group(6));
+						name = m.group(7);
+						msg = m.group(8);
 						if(!wholeMessages.contains(year+"-"+month+"-"+day+" "+hour+":"+min+" "+name+" "+msg)) {
 							wholeMessages.add(year+"-"+month+"-"+day+" "+hour+":"+min+" "+name+" "+msg);
 							readName = true;
 						}
+						
+						/*if(msg.equals("Photo")){
+							if(!time.contains(year+" "+month+" "+day+" "+name+" "+hour+" "+min+" "+seconds)) {
+								time.add(year+" "+month+" "+day+" "+name+" "+hour+" "+min+" "+seconds);
+								readName = true;
+							}
+						}*/
+						
 						if(readName) {
 							names.add(name);
 							readName=false;
@@ -49,6 +58,10 @@ public class DataReaderForCSV {
 	
 	public ArrayList<String> getMessages(){
 		return wholeMessages;
+	}
+	
+	public ArrayList<String> getTime(){
+		return time;
 	}
 	
 	public void addMessages(ArrayList<String> wholeMessages) {

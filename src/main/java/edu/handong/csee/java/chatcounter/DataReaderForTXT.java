@@ -7,6 +7,7 @@ import java.util.regex.*;
 public class DataReaderForTXT {
 	ArrayList<String> names = new ArrayList<String>();
 	ArrayList<String> wholeMessages = new ArrayList<String>();
+	ArrayList<String> time = new ArrayList<String>();
 	Pattern p1 = Pattern.compile("\\[(.+)\\]\\s\\[(.+)\\s(\\d+):(\\d+)\\]\\s(.+)");
 	Pattern p2 = Pattern.compile("-+\\s(\\d+).\\s(\\d).\\s(\\d+).\\s.+\\s-+");
 	String msg,name;
@@ -29,16 +30,20 @@ public class DataReaderForTXT {
 						 name = m1.group(1);
 						 min = Integer.parseInt(m1.group(4));
 						 msg = m1.group(5);
-						 if(m1.group(2).equals("오후")) {
+						 hour = Integer.parseInt(m1.group(3));
+						 if(m1.group(2).contains("오후")) {
 							 hour = Integer.parseInt(m1.group(3))+12;
 						 }
-						 if(msg.equals("사진")) {
+						 
+						 /*if(msg.equals("사진")) {
 							 msg = "Photo";
-						 }
+						 }*/
+						 
 						 if(!wholeMessages.contains(year+"-"+month+"-"+day+" "+hour+":"+min+" "+name+" "+msg)) {
 								wholeMessages.add(year+"-"+month+"-"+day+" "+hour+":"+min+" "+name+" "+msg);
 								readName = true;
 							}
+						 
 						 if(readName) {
 							 names.add(name);
 							 readName=false;
@@ -66,4 +71,12 @@ public class DataReaderForTXT {
 			}
 		}
 	}
+	public void addTime(ArrayList<String> time) {
+		for(String line : time) {
+			if(!this.time.contains(line)) {
+				this.time.add(line);
+			}
+		}
+	}
+	
 }
