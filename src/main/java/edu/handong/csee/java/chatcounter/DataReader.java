@@ -13,7 +13,7 @@ public class DataReader {
 		
 		MessageFilter myFilter = new MessageFilter(messages);
 		
-		myFilter.convertToString();
+		myFilter.calculateNames();
 	}
 	
 	public ArrayList<String> getData(String strDir){
@@ -44,15 +44,16 @@ public class DataReader {
 		
 		for(File file : files) {
 			if(file.toString().contains("csv")) {
+				csvReader.addMessages(txtReader.getMessages());
 				csvReader.readFiles(file);
-				message.addAll(csvReader.getMessages());
+				message.addAll(csvReader.getNames());
 			}
 			else if (file.toString().contains("txt")){
+				txtReader.addMessages(csvReader.getMessages());
 				txtReader.readFiles(file);
-				message.addAll(txtReader.getMessages());
+				message.addAll(txtReader.getNames());
 			}
 		}
-		
 		return message;
 	}
 

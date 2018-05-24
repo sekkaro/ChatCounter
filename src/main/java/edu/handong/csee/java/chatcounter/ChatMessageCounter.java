@@ -3,30 +3,30 @@ package edu.handong.csee.java.chatcounter;
 import java.util.*;
 
 public class ChatMessageCounter {
-	private String[] message,names;
+	ArrayList<String> messages,names;
 	HashMap<String,Integer> messageCounter = new HashMap<>();
 	
 	public ChatMessageCounter(){
 		
 	}
-	public void setdata(String[] message,String[] names) {
-		this.message = message;
+	public void setdata(ArrayList<String> messages,ArrayList<String> names) {
+		this.messages = messages;
 		this.names = names;
 	}
 	public void calculateCounter() {
 		int count=0;
-		for(int i = 0 ; i < names.length ; i++) {
-			for(int j = 0 ; j < message.length ; j++) {
-				if(names[i].equals(message[j])) {
+		for(String name:names) {
+			for(String message:messages) {
+				if(name.equals(message)) {
 					count++;
 				}
 			}
-			messageCounter.put(names[i],count);
+			messageCounter.put(name,count);
 			count=0;
 		}
 		
-		for(int i=0; i < names.length ; i++) {
-			System.out.println(names[i] + ":" + messageCounter.get(names[i]));
+		for(String name : names) {
+			System.out.println(name + ":" + messageCounter.get(name));
 		}
 	}
 	
