@@ -25,19 +25,24 @@ public class DataReaderForTXT {
 							year = Integer.parseInt(m2.group(1));
 							month = Integer.parseInt(m2.group(2));
 							day = Integer.parseInt(m2.group(3));
-						}
+						 }
+						 
 						 if(m1.find()) {
 						 name = m1.group(1);
 						 min = Integer.parseInt(m1.group(4));
 						 msg = m1.group(5);
 						 hour = Integer.parseInt(m1.group(3));
+						 
 						 if(m1.group(2).contains("오후")) {
 							 hour = Integer.parseInt(m1.group(3))+12;
 						 }
+						 if(m1.group(2).contains("오전")&&hour==12) {
+							 hour = 0;
+						 }
 						 
-						 /*if(msg.equals("사진")) {
+						 if(msg.equals("사진")) {
 							 msg = "Photo";
-						 }*/
+						 }
 						 
 						 if(!wholeMessages.contains(year+"-"+month+"-"+day+" "+hour+":"+min+" "+name+" "+msg)) {
 								wholeMessages.add(year+"-"+month+"-"+day+" "+hour+":"+min+" "+name+" "+msg);
