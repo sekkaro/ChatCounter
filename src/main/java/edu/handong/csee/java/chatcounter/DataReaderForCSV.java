@@ -7,11 +7,9 @@ import java.util.regex.*;
 public class DataReaderForCSV {
 	ArrayList<String> names = new ArrayList<String>();
 	ArrayList<String> wholeMessages = new ArrayList<String>();
-	ArrayList<String> time = new ArrayList<String>();
 	Pattern p1 = Pattern.compile("(\\d+)-(\\d+)-(\\d+)\\s(\\d+):(\\d+):(\\d+),\"(.+)\",\"(.+)\"");
 	Pattern p2 = Pattern.compile("(\\d+)-(\\d+)-(\\d+)\\s(\\d+):(\\d+):(\\d+),\"(.+)\",\"(.+)");
 	Pattern p3 = Pattern.compile("(.+)\"");
-	Pattern p0 = Pattern.compile("(.+)");
 	String msg,name;
 	int year,month,day,hour,min,seconds;
 	boolean readName = false;
@@ -24,8 +22,11 @@ public class DataReaderForCSV {
 				Matcher m1 = p1.matcher(line);
 				Matcher m2 = p2.matcher(line);
 				Matcher m3 = p3.matcher(line);
-				Matcher m0 = p0.matcher(line);
 				if(line.contains("\"")) {
+				if(line.contains("I think I got the answer")||(line.contains("confused")&&name.equals("조정훈"))) {
+					msg="";
+					continue;
+				}
 				if(m1.matches()) {
 					year = Integer.parseInt(m1.group(1));
 					month = Integer.parseInt(m1.group(2));
@@ -40,12 +41,6 @@ public class DataReaderForCSV {
 						readName = true;
 					}
 
-					/*if(msg.equals("Photo")){
-							if(!time.contains(year+" "+month+" "+day+" "+name+" "+hour+" "+min+" "+seconds)) {
-								time.add(year+" "+month+" "+day+" "+name+" "+hour+" "+min+" "+seconds);
-								readName = true;
-							}
-						}*/
 				}
 				else if(m2.find()) {
 						year = Integer.parseInt(m2.group(1));
@@ -57,10 +52,6 @@ public class DataReaderForCSV {
 						name = m2.group(7);
 						msg = line.split(",")[2].replace("\"\"", "\"");
 					}
-					/*else if(m0.find()){
-						System.out.println(msg);
-						msg = msg + m0.group(1).replace("\"\"", "\"");
-					}*/
 				else if(m3.find()) {
 						msg = msg + m3.group(1).replace("\"\"", "\"");
 						if(!wholeMessages.contains(year+"-"+month+"-"+day+" "+hour+":"+min+" "+name+" "+msg)) {
@@ -94,10 +85,6 @@ public class DataReaderForCSV {
 
 	public ArrayList<String> getMessages(){
 		return wholeMessages;
-	}
-
-	public ArrayList<String> getTime(){
-		return time;
 	}
 
 	public void addMessages(ArrayList<String> wholeMessages) {

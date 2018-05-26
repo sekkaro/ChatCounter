@@ -33,7 +33,7 @@ public class DataReaderForTXT {
 						 msg = m1.group(5);
 						 hour = Integer.parseInt(m1.group(3));
 						 
-						 if(m1.group(2).contains("오후")) {
+						 if(m1.group(2).contains("오후")&&hour!=12) {
 							 hour = Integer.parseInt(m1.group(3))+12;
 						 }
 						 if(m1.group(2).contains("오전")&&hour==12) {

@@ -1,7 +1,7 @@
 package edu.handong.csee.java.chatcounter;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class DataReader {
 	
@@ -9,11 +9,17 @@ public class DataReader {
 		
 		DataReader myReader = new DataReader();
 		
-		ArrayList<String> messages = myReader.getData(args[0]);
+		ArrayList<String> listOfNames = myReader.getData(args[0]);
 		
-		MessageFilter myFilter = new MessageFilter(messages);
+		MessageFilter myFilter = new MessageFilter(listOfNames);
 		
 		myFilter.calculateNames();
+		HashMap<String,Integer> messageCounter = myFilter.getHashMap();
+		listOfNames = myFilter.getNames();
+		
+		DataWriter myWriter = new DataWriter(messageCounter,listOfNames);
+		File outputFile = new File(args[1]);
+		myWriter.writeFile(outputFile);
 	}
 	
 	public ArrayList<String> getData(String strDir){
@@ -21,9 +27,9 @@ public class DataReader {
 		
 		File[] file = getListOfFilesFromDirectory(myDir);
 		
-		ArrayList<String> messages = readFiles(file);
+		ArrayList<String> listOfNames = readFiles(file);
 		
-		return messages;
+		return listOfNames;
 	}
 	
 	private File getDirectory(String strDir){
@@ -36,7 +42,7 @@ public class DataReader {
 	}
 	
 	private ArrayList<String> readFiles(File[] files){
-		ArrayList<String> message = new ArrayList<String>();
+		ArrayList<String> listOfNames = new ArrayList<String>();
 		
 		DataReaderForCSV csvReader = new DataReaderForCSV();
 		DataReaderForTXT txtReader = new DataReaderForTXT();
@@ -46,21 +52,15 @@ public class DataReader {
 			if(file.toString().contains("csv")) {
 				csvReader.addMessages(txtReader.getMessages());
 				csvReader.readFiles(file);
-				message.addAll(csvReader.getNames());
+				listOfNames.addAll(csvReader.getNames());
 			}
 			else if (file.toString().contains("txt")){
-				//txtReader.addTime(csvReader.getTime());
 				txtReader.addMessages(csvReader.getMessages());
 				txtReader.readFiles(file);
-				message.addAll(txtReader.getNames());
+				listOfNames.addAll(txtReader.getNames());
 			}
 		}
-		/*for(String line : csvReader.getMessages()) {
-			if(line.contains("ÇÑ»ó¹Î")) {
-				System.out.println(line);
-			}
-		}*/
-		return message;
+		return listOfNames;
 	}
 
 }
