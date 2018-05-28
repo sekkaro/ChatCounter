@@ -40,7 +40,7 @@ public class DataReaderForTXT {
 		names.clear(); // clear the list of names when reading a new file
 		// try block
 		try {
-			BufferedReader inputStream = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF8")); // creates instance of BufferedReader class and reads it in UTF-8 form
+			BufferedReader inputStream = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8")); // creates instance of BufferedReader class and reads it in UTF-8 form
 			String line; // String to read each line 
 			// while the line exists to read in the file,
 			while((line=inputStream.readLine())!=null) {
