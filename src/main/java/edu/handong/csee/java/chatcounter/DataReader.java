@@ -22,7 +22,7 @@ import java.util.*;
 public class DataReader {
 	private static String inputdir; // input directory file that contains the value
 	private static String outputfile; // output directory file in String object
-	
+
 	/**
 	 * This is the main method. 
 	 * <p>
