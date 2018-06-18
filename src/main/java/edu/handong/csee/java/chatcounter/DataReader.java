@@ -7,6 +7,8 @@ import org.apache.commons.cli.*;
 import java.io.*;
 // imports whole java.util classes
 import java.util.*;
+// imports whole of java.util.concurrent class
+import java.util.concurrent.*;
 
 /**
  * DataReader class is the main class having the main method it reads the file 
@@ -34,7 +36,10 @@ public class DataReader {
 	public static void main(String[] args) {
 
 		Options options = createOptions(); // creates instance of Options class
-
+		
+		int numOfCoresInMyCPU = Runtime.getRuntime().availableProcessors(); // gets number of cores in the CPU using runtime methods
+		ExecutorService executor = Executors.newFixedThreadPool(numOfCoresInMyCPU); // creates a thread pool using ExecutorService
+		
 		// if the what the parseOptions method has passed is true do the following actions,
 		if(parseOptions(options, args)){
 			DataReader myReader = new DataReader(); // creates the instance of DataReader class
